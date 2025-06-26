@@ -20,4 +20,14 @@ func main() {
 	} else {
 		fmt.Println("不是回文")
 	}
+
+	// task01_有效括号
+	//var str = "()[]{}"
+	var str = "([)]"
+	isValid := task01.IsValid(str)
+	if isValid {
+		fmt.Println("有效括号")
+	} else {
+		fmt.Println("无效括号")
+	}
 }
