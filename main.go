@@ -30,4 +30,9 @@ func main() {
 	} else {
 		fmt.Println("无效括号")
 	}
+
+	// 最长公共前缀
+	var stirs = []string{"flower", "flow", "flight"}
+	prefix := task01.LongestCommonPrefix(stirs)
+	fmt.Println("最长公共前缀：" + prefix)
 }
