@@ -42,4 +42,9 @@ func main() {
 	var digits = []int{9, 9, 9, 9}
 	plusOneResult := task01.PlusOne(digits)
 	fmt.Println("加一后的结果：", plusOneResult)
+
+	//删除有序数组中的重复项
+	var nums = []int{1, 1, 2}
+	removeDuplicatesResult := task01.RemoveDuplicates(nums)
+	fmt.Println("删除有序数组中的重复项后的结果：", removeDuplicatesResult)
 }
