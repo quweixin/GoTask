@@ -35,4 +35,11 @@ func main() {
 	var stirs = []string{"flower", "flow", "flight"}
 	prefix := task01.LongestCommonPrefix(stirs)
 	fmt.Println("最长公共前缀：" + prefix)
+
+	//  加一
+	//var digits = []int{1, 2, 3}
+	//var digits = []int{9}
+	var digits = []int{9, 9, 9, 9}
+	plusOneResult := task01.PlusOne(digits)
+	fmt.Println("加一后的结果：", plusOneResult)
 }
