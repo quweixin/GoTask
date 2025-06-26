@@ -47,4 +47,10 @@ func main() {
 	var nums = []int{1, 1, 2}
 	removeDuplicatesResult := task01.RemoveDuplicates(nums)
 	fmt.Println("删除有序数组中的重复项后的结果：", removeDuplicatesResult)
+
+	//两数之和
+	var nums03 = []int{2, 7, 11, 15}
+	target := 9
+	twoSumResult := task01.TwoSum(nums03, target)
+	fmt.Println("两数之和的结果：", twoSumResult)
 }
