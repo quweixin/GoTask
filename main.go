@@ -117,4 +117,7 @@ func main() {
 	var employee = task02.Employee{EmployeeID: 1, Person: task02.Person{Name: "John", Age: 30}}
 	employee.PrintInfo()
 
+	fmt.Println("===开始Channel01===")
+	task02.RunCommunication()
+
 }
