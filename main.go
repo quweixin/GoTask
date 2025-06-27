@@ -113,4 +113,8 @@ func main() {
 	fmt.Println("面积:", s.Area())
 	fmt.Println("周长:", s.Perimeter())
 
+	fmt.Println("面向对象02")
+	var employee = task02.Employee{EmployeeID: 1, Person: task02.Person{Name: "John", Age: 30}}
+	employee.PrintInfo()
+
 }
