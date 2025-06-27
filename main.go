@@ -126,4 +126,7 @@ func main() {
 	fmt.Println("===开始锁机制01===")
 	task02.TestIncrement()
 
+	fmt.Println("===开始锁机制02===")
+	task02.TestAtomicIncrement()
+
 }
