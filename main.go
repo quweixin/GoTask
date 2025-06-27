@@ -102,4 +102,15 @@ func main() {
 		fmt.Printf("%s: %.2f 秒 \n", name, duration.Seconds())
 	}
 
+	fmt.Println("面向对象01")
+	var rectangle = task02.Rectangle{Width: 5.0, Height: 10.0}
+	var s task02.Shape = rectangle
+	fmt.Println("面积:", s.Area())
+	fmt.Println("周长:", s.Perimeter())
+
+	var circle = task02.Circle{Radius: 5.0}
+	s = circle
+	fmt.Println("面积:", s.Area())
+	fmt.Println("周长:", s.Perimeter())
+
 }
