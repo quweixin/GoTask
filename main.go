@@ -88,4 +88,18 @@ func main() {
 	for i := range ch02 {
 		fmt.Println(i)
 	}
+
+	tasks := map[string]func(){
+		"TaskA": task02.TaskA,
+		"TaskB": task02.TaskB,
+		"TaskC": task02.TaskC,
+	}
+	fmt.Println("开始执行任务...")
+	results := task02.TaskScheduler(tasks)
+	fmt.Println("所有任务已完成！")
+	fmt.Println("\n执行时间统计:")
+	for name, duration := range results {
+		fmt.Printf("%s: %.2f 秒 \n", name, duration.Seconds())
+	}
+
 }
