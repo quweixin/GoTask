@@ -73,4 +73,19 @@ func main() {
 
 	// 输出修改后的切片
 	fmt.Println("修改后的切片:", numbers)
+
+	fmt.Println("task02_goroutine_01")
+	nums := []int{2, 7, 4, 6, 11, 15, 20, 21, 25}
+	ch := make(chan int, 20)
+	ch02 := make(chan int, 20)
+	go task02.PrintOddNum(nums, ch)
+	go task02.PrintEvenNum(nums, ch02)
+	fmt.Println("打印奇数")
+	for i := range ch {
+		fmt.Println(i)
+	}
+	fmt.Println("打印偶数")
+	for i := range ch02 {
+		fmt.Println(i)
+	}
 }
