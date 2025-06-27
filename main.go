@@ -120,4 +120,7 @@ func main() {
 	fmt.Println("===开始Channel01===")
 	task02.RunCommunication()
 
+	fmt.Println("===开始Channel02===")
+	task02.TestProducerConsumer()
+
 }
