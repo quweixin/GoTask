@@ -123,4 +123,7 @@ func main() {
 	fmt.Println("===开始Channel02===")
 	task02.TestProducerConsumer()
 
+	fmt.Println("===开始锁机制01===")
+	task02.TestIncrement()
+
 }
