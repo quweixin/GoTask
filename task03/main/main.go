@@ -1,6 +1,9 @@
 package main
 
-import "GoTask/task03"
+import (
+	"GoTask/task03"
+	"github.com/shopspring/decimal"
+)
 
 //func main() {
 //	db := task03.GetDb()
@@ -30,5 +33,7 @@ import "GoTask/task03"
 func main() {
 	db := task03.GetDb()
 	//task03.InitTable(db)
-	task03.InitData(db)
+	//task03.InitData(db)
+
+	task03.Transfer(db, 1, 2, decimal.NewFromFloat(100))
 }

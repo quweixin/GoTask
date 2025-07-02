@@ -4,6 +4,7 @@ import (
 	"GoTask/task03/models"
 	"github.com/shopspring/decimal"
 	"gorm.io/gorm"
+	"gorm.io/gorm/clause"
 )
 
 func InitTable(db *gorm.DB) {
@@ -25,4 +26,33 @@ func InitData(db *gorm.DB) {
 		Balance: balanceB,
 	}
 	db.Create(&accountB)
+}
+
+func Transfer(db *gorm.DB, fromAccountId uint, toAccountId uint, amount decimal.Decimal) {
+	// 开启事务
+	tx := db.Begin()
+	// 获取 fromAccount
+	var fromAccount models.Account
+	//tx.First(&fromAccount, fromAccountId)
+	tx.Clauses(clause.Locking{Strength: "UPDATE"}).Find(&fromAccount, fromAccountId)
+	if fromAccount.Balance.LessThan(amount) {
+		tx.Rollback()
+		return
+	}
+	fromAccount.Balance = fromAccount.Balance.Sub(amount)
+	tx.Save(&fromAccount)
+	// 获取 toAccount
+	var toAccount models.Account
+	tx.Clauses(clause.Locking{Strength: "UPDATE"}).Find(&toAccount, toAccountId)
+	toAccount.Balance = toAccount.Balance.Add(amount)
+	tx.Save(&toAccount)
+	// 创建一个 transaction 实例
+	transaction := models.Transaction{
+		FromAccountId: fromAccountId,
+		ToAccountId:   toAccountId,
+		Amount:        amount,
+	}
+	tx.Create(&transaction)
+
+	tx.Commit()
 }
