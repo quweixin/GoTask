@@ -2,7 +2,6 @@ package main
 
 import (
 	"GoTask/task03"
-	"github.com/shopspring/decimal"
 )
 
 //func main() {
@@ -35,5 +34,9 @@ func main() {
 	//task03.InitTable(db)
 	//task03.InitData(db)
 
-	task03.Transfer(db, 2, 1, decimal.NewFromFloat(100))
+	// 测试转账
+	//task03.Transfer(db, 2, 1, decimal.NewFromFloat(100))
+
+	// gorm 进阶 ，表创建
+	task03.InitTable02(db)
 }
