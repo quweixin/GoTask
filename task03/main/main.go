@@ -35,5 +35,5 @@ func main() {
 	//task03.InitTable(db)
 	//task03.InitData(db)
 
-	task03.Transfer(db, 1, 2, decimal.NewFromFloat(100))
+	task03.Transfer(db, 2, 1, decimal.NewFromFloat(100))
 }

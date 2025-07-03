@@ -42,10 +42,12 @@ func Transfer(db *gorm.DB, fromAccountId uint, toAccountId uint, amount decimal.
 	fromAccount.Balance = fromAccount.Balance.Sub(amount)
 	tx.Save(&fromAccount)
 	// 获取 toAccount
-	var toAccount models.Account
-	tx.Clauses(clause.Locking{Strength: "UPDATE"}).Find(&toAccount, toAccountId)
-	toAccount.Balance = toAccount.Balance.Add(amount)
-	tx.Save(&toAccount)
+	//var toAccount models.Account
+	//tx.Clauses(clause.Locking{Strength: "UPDATE"}).Find(&toAccount, toAccountId)
+	//toAccount.Balance = toAccount.Balance.Add(amount)
+	//tx.Save(&toAccount)
+
+	tx.Exec("update accounts set balance = balance + ? where id = ?", amount, toAccountId)
 	// 创建一个 transaction 实例
 	transaction := models.Transaction{
 		FromAccountId: fromAccountId,
