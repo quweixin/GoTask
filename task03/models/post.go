@@ -1,6 +1,7 @@
 package models
 
 import (
+	"database/sql"
 	"gorm.io/gorm"
 )
 
@@ -12,6 +13,7 @@ type Post struct {
 	CommentsCount int64 `gorm:"column:commentsCount"`
 	UserId        uint
 	User          User
+	CommentStatus sql.NullString
 }
 
 func (p *Post) AfterCreate(tx *gorm.DB) (err error) {

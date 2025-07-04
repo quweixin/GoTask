@@ -7,7 +7,8 @@ import (
 )
 
 func InitTable02(db *gorm.DB) {
-	_ = db.AutoMigrate(&models.User{}, &models.Post{}, &models.Comment{})
+	//_ = db.AutoMigrate(&models.User{}, &models.Post{}, &models.Comment{})
+	_ = db.AutoMigrate(&models.Post{})
 }
 
 func CreateUser(db *gorm.DB) {
@@ -86,4 +87,14 @@ func GetMaxCommentCountPost(db *gorm.DB) models.Post {
 		Having("COUNT(comments.id) >=ALL  (?)", maxCommentSubQuery).
 		Scan(&maxCountPost2)
 	return maxCountPost2
+}
+
+func DeleteComment(db *gorm.DB, ids []int) {
+	//tx := db.Begin()
+	for _, id := range ids {
+		var comment models.Comment
+		db.Where("id = ?", id).Find(&comment)
+		db.Delete(&comment)
+	}
+	//tx.Commit()
 }

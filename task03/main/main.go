@@ -2,7 +2,6 @@ package main
 
 import (
 	"GoTask/task03"
-	"GoTask/task03/models"
 )
 
 //func main() {
@@ -43,9 +42,9 @@ func main() {
 	//初始化 用户
 	//task03.CreateUser(db)
 
-	var user models.User
-	db.Debug().Where("name = ?", "张三").Find(&user)
-	task03.CreatePost(db, user)
+	//var user models.User
+	//db.Debug().Where("name = ?", "张三").Find(&user)
+	//task03.CreatePost(db, user)
 
 	//var posts []models.Post
 	//db.Where("id  in ?", []uint{9, 10, 11}).Find(&posts)
@@ -62,5 +61,10 @@ func main() {
 	//var postMax models.Post
 	//postMax = task03.GetMaxCommentCountPost(db)
 	//fmt.Println(postMax.ID, postMax.Title, postMax.CommentsCount)
+
+	//为 Comment 模型添加一个钩子函数，在评论删除时检查文章的评论数量，如果评论数量为 0，则更新文章的评论状态为 "无评论"。
+
+	var commentsId = []int{8, 9}
+	task03.DeleteComment(db, commentsId)
 
 }
