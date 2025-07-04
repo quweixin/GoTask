@@ -47,7 +47,10 @@ func Transfer(db *gorm.DB, fromAccountId uint, toAccountId uint, amount decimal.
 	//toAccount.Balance = toAccount.Balance.Add(amount)
 	//tx.Save(&toAccount)
 
-	tx.Exec("update accounts set balance = balance + ? where id = ?", amount, toAccountId)
+	var sql = "update accounts " +
+		"set balance = balance + ? where id = ?"
+
+	tx.Exec(sql, amount, toAccountId)
 	// 创建一个 transaction 实例
 	transaction := models.Transaction{
 		FromAccountId: fromAccountId,

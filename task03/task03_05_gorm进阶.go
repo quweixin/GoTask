@@ -71,13 +71,14 @@ func GetMaxCommentCountPost(db *gorm.DB) models.Post {
 	//	" WHERE             p2.deleted_at IS NULL       GROUP BY             p2.id    )"
 	//db.Raw(sql).Scan(&maxCountPost)
 	var maxCountPost2 models.Post
-	maxCommentSubQuery := db.Table("comments").
+	//maxCommentSubQuery := db.Table("comments").
+	maxCommentSubQuery := db.Model(&models.Comment{}).
 		Select("COUNT(comments.id)").
 		Joins("JOIN posts ON posts.id = comments.post_id AND posts.deleted_at IS NULL").
 		Where("comments.deleted_at IS NULL").
 		Group("posts.id")
 
-	db.Table("posts").
+	db.Model(&models.Post{}).
 		Select("posts.id, posts.title, posts.content, COUNT(comments.id) AS commentsCount").
 		Joins("LEFT JOIN comments ON posts.id = comments.post_id AND comments.deleted_at IS NULL").
 		Where("posts.deleted_at IS NULL").
