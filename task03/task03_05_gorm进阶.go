@@ -56,3 +56,10 @@ func GetUserPostAndComments(db *gorm.DB, user models.User) []models.Post {
 	db.Preload("Comments").Where("user_id = ?", user.ID).Find(&posts)
 	return posts
 }
+
+func GetMaxCommentCountPost(db *gorm.DB) models.Post {
+	var maxCountPost models.Post
+	var sql = "SELECT \n    p.id,\n    p.title,\n    p.content,\n    COUNT(c.id) AS commentsCount\nFROM \n    posts p\nLEFT JOIN \n    comments c ON p.id = c.post_id AND c.deleted_at IS NULL\nWHERE \n    p.deleted_at IS NULL\nGROUP BY \n    p.id\nHAVING \n    commentsCount >= All (\n        SELECT \n            COUNT(c2.id)\n        FROM \n            posts p2\n        LEFT JOIN \n            comments c2 ON p2.id = c2.post_id AND c2.deleted_at IS NULL\n        WHERE \n            p2.deleted_at IS NULL\n        GROUP BY \n            p2.id\n    )"
+	db.Debug().Raw(sql).Scan(&maxCountPost)
+	return maxCountPost
+}

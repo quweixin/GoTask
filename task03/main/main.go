@@ -51,10 +51,17 @@ func main() {
 	//var posts []models.Post
 	//db.Where("id  in ?", []uint{9, 10, 11}).Find(&posts)
 	//task03.CreateComment(db, posts)
-	var posts []models.Post
-	posts = task03.GetUserPostAndComments(db, user)
-	for _, post := range posts {
-		fmt.Println(post)
-	}
+
+	//使用Gorm查询某个用户发布的所有文章及其对应的评论信息。
+	//var posts []models.Post
+	//posts = task03.GetUserPostAndComments(db, user)
+	//for _, post := range posts {
+	//	fmt.Println(post)
+	//}
+
+	//	编写Go代码，使用Gorm查询评论数量最多的文章信息。
+	var postMax models.Post
+	postMax = task03.GetMaxCommentCountPost(db)
+	fmt.Println(postMax.ID, postMax.Title, postMax.CommentsCount)
 
 }

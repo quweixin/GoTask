@@ -6,9 +6,10 @@ import (
 
 type Post struct {
 	gorm.Model
-	Title    string
-	Content  string
-	Comments []Comment
-	UserId   uint
-	User     User
+	Title         string
+	Content       string
+	Comments      []Comment
+	CommentsCount int64 `gorm:"column:commentsCount"`
+	UserId        uint
+	User          User
 }
