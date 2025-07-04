@@ -10,4 +10,5 @@ type Post struct {
 	Content  string
 	Comments []Comment
 	UserId   uint
+	User     User
 }

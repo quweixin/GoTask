@@ -2,6 +2,8 @@ package main
 
 import (
 	"GoTask/task03"
+	"GoTask/task03/models"
+	"fmt"
 )
 
 //func main() {
@@ -38,5 +40,21 @@ func main() {
 	//task03.Transfer(db, 2, 1, decimal.NewFromFloat(100))
 
 	// gorm 进阶 ，表创建
-	task03.InitTable02(db)
+	//task03.InitTable02(db)
+	//初始化 用户
+	//task03.CreateUser(db)
+
+	var user models.User
+	db.Debug().Where("name = ?", "张三").Find(&user)
+	//task03.CreatePost(db, user)
+
+	//var posts []models.Post
+	//db.Where("id  in ?", []uint{9, 10, 11}).Find(&posts)
+	//task03.CreateComment(db, posts)
+	var posts []models.Post
+	posts = task03.GetUserPostAndComments(db, user)
+	for _, post := range posts {
+		fmt.Println(post)
+	}
+
 }
