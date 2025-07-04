@@ -58,8 +58,31 @@ func GetUserPostAndComments(db *gorm.DB, user models.User) []models.Post {
 }
 
 func GetMaxCommentCountPost(db *gorm.DB) models.Post {
-	var maxCountPost models.Post
-	var sql = "SELECT \n    p.id,\n    p.title,\n    p.content,\n    COUNT(c.id) AS commentsCount\nFROM \n    posts p\nLEFT JOIN \n    comments c ON p.id = c.post_id AND c.deleted_at IS NULL\nWHERE \n    p.deleted_at IS NULL\nGROUP BY \n    p.id\nHAVING \n    commentsCount >= All (\n        SELECT \n            COUNT(c2.id)\n        FROM \n            posts p2\n        LEFT JOIN \n            comments c2 ON p2.id = c2.post_id AND c2.deleted_at IS NULL\n        WHERE \n            p2.deleted_at IS NULL\n        GROUP BY \n            p2.id\n    )"
-	db.Debug().Raw(sql).Scan(&maxCountPost)
-	return maxCountPost
+	//var maxCountPost models.Post
+	//var sql = "SELECT    p.id,    p.title,   p.content,    COUNT(c.id) AS commentsCount " +
+	//	"FROM posts p " +
+	//	"LEFT JOIN    comments c ON p.id = c.post_id AND c.deleted_at IS NULL " +
+	//	"WHERE    p.deleted_at IS NULL " +
+	//	"GROUP BY     p.id " +
+	//	"HAVING     commentsCount >= " +
+	//	"All (        SELECT          COUNT(c2.id)     " +
+	//	" FROM             posts p2         " +
+	//	"LEFT JOIN            comments c2 ON p2.id = c2.post_id AND c2.deleted_at IS NULL" +
+	//	" WHERE             p2.deleted_at IS NULL       GROUP BY             p2.id    )"
+	//db.Raw(sql).Scan(&maxCountPost)
+	var maxCountPost2 models.Post
+	maxCommentSubQuery := db.Table("comments").
+		Select("COUNT(comments.id)").
+		Joins("JOIN posts ON posts.id = comments.post_id AND posts.deleted_at IS NULL").
+		Where("comments.deleted_at IS NULL").
+		Group("posts.id")
+
+	db.Table("posts").
+		Select("posts.id, posts.title, posts.content, COUNT(comments.id) AS commentsCount").
+		Joins("LEFT JOIN comments ON posts.id = comments.post_id AND comments.deleted_at IS NULL").
+		Where("posts.deleted_at IS NULL").
+		Group("posts.id").
+		Having("COUNT(comments.id) >=ALL  (?)", maxCommentSubQuery).
+		Scan(&maxCountPost2)
+	return maxCountPost2
 }
