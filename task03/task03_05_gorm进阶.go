@@ -24,10 +24,10 @@ func CreateUser(db *gorm.DB) {
 func CreatePost(db *gorm.DB, user models.User) {
 
 	posts := []*models.Post{
-		{Title: "张三的博客", Content: "张三的博客内容", User: user},
-		{Title: "张三的博客02", Content: "张三的博客内容02", User: user},
-		{Title: "张三的博客03", Content: "张三的博客内容03", User: user},
-		{Title: "张三的博客04", Content: "张三的博客内容04", User: user},
+		{Title: "张三的博客5", Content: "张三的博客内容", User: user},
+		{Title: "张三的博客6", Content: "张三的博客内容02", User: user},
+		{Title: "张三的博客7", Content: "张三的博客内容03", User: user},
+		{Title: "张三的博客8", Content: "张三的博客内容04", User: user},
 	}
 	db.Create(posts)
 }

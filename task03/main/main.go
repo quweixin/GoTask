@@ -3,7 +3,6 @@ package main
 import (
 	"GoTask/task03"
 	"GoTask/task03/models"
-	"fmt"
 )
 
 //func main() {
@@ -46,7 +45,7 @@ func main() {
 
 	var user models.User
 	db.Debug().Where("name = ?", "张三").Find(&user)
-	//task03.CreatePost(db, user)
+	task03.CreatePost(db, user)
 
 	//var posts []models.Post
 	//db.Where("id  in ?", []uint{9, 10, 11}).Find(&posts)
@@ -60,8 +59,8 @@ func main() {
 	//}
 
 	//	编写Go代码，使用Gorm查询评论数量最多的文章信息。
-	var postMax models.Post
-	postMax = task03.GetMaxCommentCountPost(db)
-	fmt.Println(postMax.ID, postMax.Title, postMax.CommentsCount)
+	//var postMax models.Post
+	//postMax = task03.GetMaxCommentCountPost(db)
+	//fmt.Println(postMax.ID, postMax.Title, postMax.CommentsCount)
 
 }

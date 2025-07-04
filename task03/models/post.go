@@ -13,3 +13,8 @@ type Post struct {
 	UserId        uint
 	User          User
 }
+
+func (p *Post) AfterCreate(tx *gorm.DB) (err error) {
+	tx.Model(&User{}).Where("id = ?", p.User.ID).Update("post_count", gorm.Expr("post_count + ?", 1))
+	return err
+}
