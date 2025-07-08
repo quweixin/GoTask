@@ -13,8 +13,13 @@ import (
 )
 
 func main() {
+	initialize.InitLogger()
 	initialize.InitDB()
 	Router := initialize.Routers()
+
+	if err := initialize.InitTrans("zh"); err != nil {
+		panic(err)
+	}
 
 	srv := &http.Server{
 		Addr:    ":9999",

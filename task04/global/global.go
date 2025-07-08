@@ -1,7 +1,12 @@
 package global
 
-import "gorm.io/gorm"
+import (
+	ut "github.com/go-playground/universal-translator"
+	"gorm.io/gorm"
+)
 
 var (
 	DB *gorm.DB
+
+	Trans ut.Translator
 )
