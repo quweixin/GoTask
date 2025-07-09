@@ -65,6 +65,33 @@ func Register(context *gin.Context) {
 }
 
 func Login(context *gin.Context) {
+	var loginForm forms.LoginForm
+	if err := context.ShouldBind(&loginForm); err != nil {
+		context.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	var user model.User
+
+	global.DB.Where(&model.User{Username: loginForm.Username}).First(&user)
+	if user.ID == 0 {
+		context.JSON(http.StatusOK, gin.H{
+			"code":    http.StatusOK,
+			"success": false,
+			"message": "用户不存在",
+		})
+		return
+	}
+
+	if !utils.CheckPasswordHash(loginForm.Password, user.Password) {
+		context.JSON(http.StatusOK, gin.H{
+			"code":    http.StatusOK,
+			"success": false,
+			"message": "密码错误",
+		})
+		return
+	}
+
 	context.JSON(http.StatusOK, gin.H{
 		"code":    http.StatusOK,
 		"success": true,
