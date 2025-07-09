@@ -9,4 +9,6 @@ var (
 	DB *gorm.DB
 
 	Trans ut.Translator
+
+	JWTSecret = []byte("12345678")
 )

@@ -3,6 +3,7 @@ package api
 import (
 	"GoTask/task04/forms"
 	"GoTask/task04/global"
+	"GoTask/task04/middlewares"
 	"GoTask/task04/model"
 	"GoTask/task04/utils"
 	"errors"
@@ -92,9 +93,18 @@ func Login(context *gin.Context) {
 		return
 	}
 
+	token, err := middlewares.GenerateToken(user.ID, user.Username)
+	if err != nil {
+		context.JSON(http.StatusOK, gin.H{
+			"code":    http.StatusInternalServerError,
+			"message": "生成token失败",
+			"error":   err.Error(),
+		})
+		return
+	}
 	context.JSON(http.StatusOK, gin.H{
 		"code":    http.StatusOK,
-		"success": true,
 		"message": "登录成功",
+		"data":    gin.H{"token": token},
 	})
 }
