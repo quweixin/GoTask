@@ -13,7 +13,7 @@ import (
 )
 
 func main() {
-	initialize.InitLogger()
+	//initialize.InitLogger()
 	initialize.InitDB()
 	Router := initialize.Routers()
 
