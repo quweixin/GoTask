@@ -108,3 +108,22 @@ func Login(context *gin.Context) {
 		"data":    gin.H{"token": token},
 	})
 }
+
+func UserDetail(context *gin.Context) {
+	userId := context.MustGet("userId").(uint)
+	var userInfo model.User
+	global.DB.First(&userInfo, userId)
+	if userInfo.ID == 0 {
+		context.JSON(http.StatusOK, gin.H{
+			"code":    http.StatusOK,
+			"success": false,
+			"message": "用户不存在",
+		})
+		return
+	}
+	context.JSON(http.StatusOK, gin.H{
+		"code":    http.StatusOK,
+		"message": "获取用户信息成功",
+		"data":    gin.H{"userId": userInfo.ID, "username": userInfo.Username, "email": userInfo.Email},
+	})
+}

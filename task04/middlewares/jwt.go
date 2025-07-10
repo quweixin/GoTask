@@ -21,11 +21,22 @@ func GenerateToken(userID uint, username string) (string, error) {
 			Issuer:    "task04",
 		},
 	}
-
 	// 使用HS256算法创建token
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
-
 	// 签名并获取完整的编码后的字符串token
 	tokenString, err := token.SignedString(global.JWTSecret)
 	return tokenString, err
+}
+
+func PareToken(tokenString string) (*forms.CustomClaims, error) {
+	token, err := jwt.ParseWithClaims(tokenString, &forms.CustomClaims{}, func(token *jwt.Token) (interface{}, error) {
+		return global.JWTSecret, nil
+	})
+	if err != nil {
+		return nil, err
+	}
+	if claims, ok := token.Claims.(*forms.CustomClaims); ok && token.Valid {
+		return claims, nil
+	}
+	return nil, err
 }
