@@ -124,6 +124,7 @@ func UserDetail(context *gin.Context) {
 	context.JSON(http.StatusOK, gin.H{
 		"code":    http.StatusOK,
 		"message": "获取用户信息成功",
-		"data":    gin.H{"userId": userInfo.ID, "username": userInfo.Username, "email": userInfo.Email},
+		//"data":    gin.H{"userId": userInfo.ID, "username": userInfo.Username, "email": userInfo.Email},
+		"data": userInfo,
 	})
 }
