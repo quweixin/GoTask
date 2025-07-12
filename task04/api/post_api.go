@@ -78,10 +78,50 @@ func UpdatePost(context *gin.Context) {
 }
 
 func DeletePost(context *gin.Context) {
-
+	idStr := context.Param("id")
+	id := utils.ParamToUint(idStr)
+	tx := global.DB.Begin()
+	result := global.DB.Where(&model.Post{Model: gorm.Model{ID: id}, UserId: context.MustGet("userId").(uint)}).Delete(&model.Post{})
+	if result.Error != nil {
+		tx.Rollback()
+		context.JSON(http.StatusOK, gin.H{
+			"code":    http.StatusBadRequest,
+			"message": "删除文章失败",
+		})
+		return
+	}
+	result = global.DB.Where(&model.Comment{PostId: id}).Delete(&model.Comment{})
+	if result.Error != nil {
+		tx.Rollback()
+		context.JSON(http.StatusOK, gin.H{
+			"code":    http.StatusBadRequest,
+			"message": "删除文章失败",
+		})
+		return
+	}
+	tx.Commit()
+	context.JSON(http.StatusOK, gin.H{
+		"code":    http.StatusOK,
+		"message": "删除文章成功",
+	})
+	return
 }
 
 func GetPostDetail(context *gin.Context) {
+	idStr := context.Param("id")
+	id := utils.ParamToUint(idStr)
+	userId := context.MustGet("userId").(uint)
+	var post model.Post
+	global.DB.Where(&model.Post{Model: gorm.Model{ID: id}, UserId: userId}).Find(&post)
+	//post.User = nil
+	var user model.User
+	global.DB.First(&user, post.UserId)
+	post.User = &user
+	context.JSON(http.StatusOK, gin.H{
+		"code":    http.StatusOK,
+		"message": "获取文章详情成功",
+		"data":    post,
+	})
 
 }
 
