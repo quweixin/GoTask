@@ -10,7 +10,6 @@ func InitCommentRouter(RouterGroup *gin.RouterGroup) {
 	CommentRouter := RouterGroup.Group("comment").Use(middlewares.JwtAuth())
 	{
 		CommentRouter.POST("", api.CreateComment)
-		CommentRouter.GET(":id", api.GetCommentDetail)
-		CommentRouter.DELETE(":id", api.DeleteComment)
+
 	}
 }
