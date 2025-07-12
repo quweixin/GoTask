@@ -14,7 +14,7 @@ func InitPostRouter(RouterGroup *gin.RouterGroup) {
 		PostRouter.DELETE(":id", api.DeletePost)
 		PostRouter.GET(":id", api.GetPostDetail)
 		PostRouter.GET(":id/comments", api.GetCommentList)
-		PostRouter.GET("", api.GetPostList)
+		PostRouter.GET("/list", api.GetPostList)
 	}
 
 }

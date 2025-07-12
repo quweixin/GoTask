@@ -10,6 +10,7 @@ import (
 	"github.com/go-playground/validator/v10"
 	"gorm.io/gorm"
 	"net/http"
+	"strings"
 )
 
 func CreatePost(context *gin.Context) {
@@ -53,6 +54,7 @@ func UpdatePost(context *gin.Context) {
 			"code":    http.StatusBadRequest,
 			"message": utils.ErrorFormat(errs.Translate(global.Trans)),
 		})
+		return
 	}
 	//id := context.Param("id")
 	idStr := context.Param("id")
@@ -126,7 +128,40 @@ func GetPostDetail(context *gin.Context) {
 }
 
 func GetPostList(context *gin.Context) {
-
+	var postQuery forms.PostQuery
+	if err := context.ShouldBindJSON(&postQuery); err != nil {
+		var errs validator.ValidationErrors
+		ok := errors.As(err, &errs)
+		if !ok {
+			context.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+			return
+		}
+		context.JSON(http.StatusOK, gin.H{
+			"code":    http.StatusBadRequest,
+			"message": utils.ErrorFormat(errs.Translate(global.Trans)),
+		})
+		return
+	}
+	db := global.DB.Model(&model.Post{})
+	if strings.TrimSpace(postQuery.Title) != "" {
+		db = db.Where("title like ?", "%"+postQuery.Title+"%")
+	}
+	if strings.TrimSpace(postQuery.Content) != "" {
+		db = db.Where("content like ?", "%"+postQuery.Content+"%")
+	}
+	offset := (postQuery.PageNumber - 1) * postQuery.PageSize
+	limit := postQuery.PageSize
+	db = db.Offset(offset).Limit(limit)
+	var posts []model.Post
+	if err := db.Find(&posts).Error; err != nil {
+		context.JSON(http.StatusInternalServerError, gin.H{"error": "数据库查询失败"})
+		return
+	}
+	context.JSON(http.StatusOK, gin.H{
+		"code":    http.StatusOK,
+		"message": "获取文章列表成功",
+		"data":    posts,
+	})
 }
 
 func GetCommentList(context *gin.Context) {
