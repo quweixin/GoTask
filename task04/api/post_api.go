@@ -165,5 +165,17 @@ func GetPostList(context *gin.Context) {
 }
 
 func GetCommentList(context *gin.Context) {
-
+	idStr := context.Param("id")
+	id := utils.ParamToUint(idStr)
+	userId := context.MustGet("userId").(uint)
+	var post model.Post
+	global.DB.Where(&model.Post{Model: gorm.Model{ID: id}, UserId: userId}).Find(&post)
+	var comments []*model.Comment
+	global.DB.Where(&model.Comment{PostId: id}).Find(&comments)
+	post.Comments = comments
+	context.JSON(http.StatusOK, gin.H{
+		"code":    http.StatusOK,
+		"message": "获取文章评论列表成功",
+		"data":    post,
+	})
 }

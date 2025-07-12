@@ -9,7 +9,7 @@ type Post struct {
 	gorm.Model
 	Title    sql.NullString
 	Content  sql.NullString
-	User     *User `json:",omitempty"` // 当 User == nil 时不显示
+	User     *User
 	UserId   uint
 	Comments []*Comment
 }

@@ -8,8 +8,8 @@ import (
 type Comment struct {
 	gorm.Model
 	Content sql.NullString
-	Post    Post
+	Post    *Post
 	PostId  uint
-	User    User
+	User    *User
 	UserId  uint
 }
