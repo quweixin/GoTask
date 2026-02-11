@@ -12,6 +12,11 @@ type Shape interface {
 	Perimeter() float64
 }
 
+type Test interface {
+	Test() float64
+	Test2() float64
+}
+
 type Rectangle struct {
 	Width  float64
 	Height float64
@@ -27,6 +32,14 @@ func (r Rectangle) Area() float64 {
 
 func (r Rectangle) Perimeter() float64 {
 	return 2 * (r.Width + r.Height)
+}
+
+func (r Rectangle) Test() float64 {
+	return 1
+}
+
+func (r Rectangle) Test2() float64 {
+	return 2
 }
 
 func (c Circle) Area() float64 {
