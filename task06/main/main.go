@@ -26,6 +26,27 @@ func main() {
 	// Stringer 约束
 	person := Person{Name: "Alice", Age: 30}
 	PrintString(person)
+
+	m := map[string]int{"a": 1, "b": 2}
+	g := make([]*MyMap[string, int], len(m))
+	newMyMap := new(MyMap[string, int])
+	newMyMap.data = make(map[string]int)
+	newMyMap.data["x"] = 100
+	newMyMap.data["y"] = 200
+	newMyMap.data["z"] = 300
+
+	newMyMap2 := new(MyMap[string, int])
+	newMyMap2.data = make(map[string]int)
+	newMyMap2.data["a"] = 10
+	newMyMap2.data["b"] = 20
+	newMyMap2.data["c"] = 30
+
+	g[0] = newMyMap
+	g[1] = newMyMap2
+	fmt.Println(g[0].data)
+	fmt.Println(g[1].data)
+	fmt.Println(g[1].data["a"])
+
 }
 
 // PrintAny any 约束，any 是空接口 interface{} 的别名，表示任何类型都可以。
@@ -76,4 +97,8 @@ func (p Person) String() string {
 type NumericStringer interface {
 	Number
 	String() string
+}
+
+type MyMap[K comparable, V any] struct {
+	data map[K]V
 }
